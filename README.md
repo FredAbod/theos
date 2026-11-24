@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HIS PRESENCE — Music Banquet '26 Registration
 
-## Getting Started
+Futuristic registration site for **Theos Tribe** Music Banquet '26. Built with Next.js, Three.js, and MongoDB — ready for **Vercel**.
 
-First, run the development server:
+## Features
+
+- Gold / deep-green Three.js particle scene
+- Register with first name, last name, email, phone
+- Hard cap of **50** seats
+- Downloadable QR ticket after signup
+- Usher scan desk at `/scan` (camera + manual ID + check-in)
+
+## Local setup
+
+1. Copy env file and add your Atlas URI:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install & run:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Registration: [http://localhost:3000](http://localhost:3000)
+- Usher scanner: [http://localhost:3000/scan](http://localhost:3000/scan)
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. Import the project in [Vercel](https://vercel.com/new).
+3. Add environment variables:
+   - `MONGODB_URI` — MongoDB Atlas connection string
+   - `USHER_PIN` — PIN for the `/scan` check-in desk
+4. Deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### MongoDB Atlas tips
+
+- Create a free **M0** cluster.
+- Database Access: create a user/password.
+- Network Access: allow `0.0.0.0/0` (required for Vercel serverless IPs), or use the official MongoDB Atlas Vercel integration.
+- Use a DB name in the URI, e.g. `...mongodb.net/theos?...`
+
+## Routes
+
+| Path | Purpose |
+|------|---------|
+| `/` | Public registration |
+| `/ticket/[id]` | Guest ticket + QR download |
+| `/scan` | Usher QR scanner / check-in |
+| `/api/register` | Create registration |
+| `/api/count` | Seats remaining |
+| `/api/verify` | Validate / check in ticket |
